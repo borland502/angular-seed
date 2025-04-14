@@ -4,10 +4,13 @@ import { DbComponent } from '../../projects/db/src/lib/db.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DbComponent],
+  imports: [
+    RouterOutlet,
+    DbComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'angular-seed';
+  title = 'Angular Seed';
 }

@@ -1,101 +1,184 @@
 import { Component, OnInit } from '@angular/core';
 import { DbService } from './db.service';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'lib-db',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatIconModule,
+    MatChipsModule,
+    MatExpansionModule,
+    MatTabsModule
+  ],
   template: `
     <div class="db-demo">
-      <h2>Drizzle SQLite Database Demo</h2>
-
-      <div *ngIf="loading">Loading database data...</div>
-
-      <div *ngIf="error" class="error">
-        {{ error }}
+      <!-- Loading state -->
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading database data...</p>
       </div>
 
+      <!-- Error state -->
+      <div *ngIf="error" class="error-container md-rounded-medium">
+        <mat-icon color="warn">error</mat-icon>
+        <p>{{ error }}</p>
+      </div>
+
+      <!-- Data display -->
       <div *ngIf="!loading && !error">
-        <h3>Users</h3>
-        <div *ngIf="users.length === 0">No users found</div>
-        <ul *ngIf="users.length > 0">
-          <li *ngFor="let user of users">
-            <strong>{{ user.name }}</strong> ({{ user.email }})
-          </li>
-        </ul>
+        <mat-tab-group animationDuration="300ms">
+          <!-- Users Tab -->
+          <mat-tab label="Users">
+            <div class="tab-content">
+              <div *ngIf="users.length === 0" class="empty-state">
+                <mat-icon>person_off</mat-icon>
+                <p>No users found</p>
+              </div>
 
-        <h3>Posts</h3>
-        <div *ngIf="posts.length === 0">No posts found</div>
-        <div *ngIf="posts.length > 0" class="posts">
-          <div *ngFor="let post of posts" class="post">
-            <h4>{{ post.title }}</h4>
-            <p>{{ post.content }}</p>
-            <small>By: {{ getUserName(post.authorId) }}</small>
+              <mat-list *ngIf="users.length > 0">
+                <mat-list-item *ngFor="let user of users">
+                  <mat-icon matListItemIcon>person</mat-icon>
+                  <div matListItemTitle>{{ user.name }}</div>
+                  <div matListItemLine>{{ user.email }}</div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+          </mat-tab>
 
-            <h5>Comments</h5>
-            <div *ngIf="getCommentsForPost(post.id).length === 0">No comments</div>
-            <ul *ngIf="getCommentsForPost(post.id).length > 0">
-              <li *ngFor="let comment of getCommentsForPost(post.id)">
-                {{ comment.content }}
-                <small>- {{ getUserName(comment.authorId) }}</small>
-              </li>
-            </ul>
-          </div>
-        </div>
+          <!-- Posts Tab -->
+          <mat-tab label="Posts">
+            <div class="tab-content">
+              <div *ngIf="posts.length === 0" class="empty-state">
+                <mat-icon>article</mat-icon>
+                <p>No posts found</p>
+              </div>
+
+              <div *ngIf="posts.length > 0" class="posts-container">
+                <mat-accordion>
+                  <mat-expansion-panel *ngFor="let post of posts" class="md-elevation-1 md-rounded-medium">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>{{ post.title }}</mat-panel-title>
+                      <mat-panel-description>
+                        By: {{ getUserName(post.authorId) }}
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <p class="post-content">{{ post.content }}</p>
+                    <mat-divider></mat-divider>
+
+                    <div class="comments-section">
+                      <h3>Comments</h3>
+                      <div *ngIf="getCommentsForPost(post.id).length === 0" class="empty-comments">
+                        <p>No comments yet</p>
+                      </div>
+
+                      <mat-list *ngIf="getCommentsForPost(post.id).length > 0">
+                        <mat-list-item *ngFor="let comment of getCommentsForPost(post.id)">
+                          <mat-icon matListItemIcon>comment</mat-icon>
+                          <div matListItemTitle>{{ comment.content }}</div>
+                          <div matListItemLine>By: {{ getUserName(comment.authorId) }}</div>
+                        </mat-list-item>
+                      </mat-list>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
       </div>
     </div>
   `,
   styles: [`
     .db-demo {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
+      width: 100%;
     }
 
-    .error {
-      color: red;
-      padding: 10px;
-      background-color: #ffeeee;
-      border: 1px solid #ffcccc;
-      border-radius: 4px;
-      margin-bottom: 20px;
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--md-sys-spacing-6);
     }
 
-    .posts {
-      display: grid;
-      gap: 20px;
+    .loading-container p {
+      margin-top: var(--md-sys-spacing-4);
+      color: var(--md-sys-color-on-surface-variant);
     }
 
-    .post {
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 4px;
+    .error-container {
+      display: flex;
+      align-items: center;
+      padding: var(--md-sys-spacing-4);
+      background-color: var(--md-sys-color-error-container);
+      color: var(--md-sys-color-on-error-container);
+      margin-bottom: var(--md-sys-spacing-4);
     }
 
-    h2 {
-      color: #333;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 10px;
+    .error-container mat-icon {
+      margin-right: var(--md-sys-spacing-3);
     }
 
-    h3 {
-      color: #555;
-      margin-top: 20px;
+    .tab-content {
+      padding: var(--md-sys-spacing-4) 0;
     }
 
-    h4 {
-      margin-bottom: 5px;
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--md-sys-spacing-8) 0;
+      color: var(--md-sys-color-on-surface-variant);
     }
 
-    ul {
-      padding-left: 20px;
+    .empty-state mat-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: var(--md-sys-spacing-4);
     }
 
-    small {
-      color: #777;
+    .posts-container {
+      margin-top: var(--md-sys-spacing-4);
+    }
+
+    .post-content {
+      margin: var(--md-sys-spacing-4) 0;
+      white-space: pre-line;
+    }
+
+    .comments-section {
+      margin-top: var(--md-sys-spacing-4);
+    }
+
+    .comments-section h3 {
+      margin-bottom: var(--md-sys-spacing-2);
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .empty-comments {
+      padding: var(--md-sys-spacing-2);
+      color: var(--md-sys-color-on-surface-variant);
       font-style: italic;
+    }
+
+    mat-expansion-panel {
+      margin-bottom: var(--md-sys-spacing-3);
     }
   `]
 })

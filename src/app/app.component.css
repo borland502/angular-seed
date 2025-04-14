@@ -1,26 +1,203 @@
-.container {
-  font-family: Arial, sans-serif;
+/* Material Design 3 App Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+}
+
+/* Header */
+.app-header {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  padding: var(--md-sys-spacing-3) var(--md-sys-spacing-4);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
-  margin-bottom: 30px;
+  width: 100%;
 }
 
-h1 {
-  color: #333;
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 2.2rem;
+.app-title {
+  font-size: var(--md-sys-typescale-headline-small-font-size);
+  font-weight: 500;
+  margin: 0;
 }
 
-p {
-  color: #666;
+.header-right {
+  display: flex;
+  gap: var(--md-sys-spacing-4);
+}
+
+.header-link {
+  color: var(--md-sys-color-on-primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--md-sys-spacing-2) var(--md-sys-spacing-3);
+  border-radius: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.header-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content */
+.app-content {
+  flex: 1;
+  padding: var(--md-sys-spacing-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--md-sys-spacing-6);
+}
+
+@media (min-width: 840px) {
+  .app-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Cards */
+.card {
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  padding: var(--md-sys-spacing-4);
+  align-items: center;
+}
+
+.card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: var(--md-sys-spacing-3);
+  background-color: var(--md-sys-color-primary-container);
+}
+
+.angular-logo-bg {
+  background-image: url('https://angular.io/assets/images/logos/angular/angular.svg');
+  background-size: cover;
+}
+
+.database-icon {
+  background-color: var(--md-sys-color-tertiary-container);
+  position: relative;
+}
+
+.database-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: var(--md-sys-color-tertiary);
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-120q-151 0-255.5-46.5T120-280v-400q0-66 104.5-113T480-840q151 0 255.5 47T840-680v400q0 67-104.5 113.5T480-120Zm0-479q89 0 179-25.5T760-679q-11-29-101-55T480-760q-89 0-179 26t-101 55q11 28 101 54.5T480-599Zm0 199q42 0 81-4t74.5-11.5q35.5-7.5 67-18.5t57.5-25v-126q-26 14-57.5 25t-67 18.5Q600-534 561-530t-81 4q-42 0-81-4t-74.5-11.5q-35.5-7.5-67-18.5t-57.5-25v126q26 14 57.5 25t67 18.5Q359-408 398-404t82 4Zm0 200q42 0 81-4t74.5-11.5q35.5-7.5 67-18.5t57.5-25v-126q-26 14-57.5 25t-67 18.5Q600-334 561-330t-81 4q-42 0-81-4t-74.5-11.5q-35.5-7.5-67-18.5t-57.5-25v126q26 14 57.5 25t67 18.5Q359-208 398-204t82 4Z"/></svg>') center/contain no-repeat;
+}
+
+.card-title-group {
+  flex: 1;
+}
+
+.card-title {
+  font-size: var(--md-sys-typescale-headline-small-font-size);
+  font-weight: 500;
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+}
+
+.card-subtitle {
+  font-size: var(--md-sys-typescale-body-medium-font-size);
+  color: var(--md-sys-color-on-surface-variant);
+  margin: var(--md-sys-spacing-1) 0 0 0;
+}
+
+.card-content {
+  padding: 0 var(--md-sys-spacing-4) var(--md-sys-spacing-4);
+}
+
+.card-actions {
+  display: flex;
+  padding: var(--md-sys-spacing-2) var(--md-sys-spacing-4) var(--md-sys-spacing-4);
+  gap: var(--md-sys-spacing-2);
+}
+
+/* Buttons */
+.md-button {
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.md-button-primary {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.md-button-primary:hover {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.md-button-secondary {
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+}
+
+.md-button-secondary:hover {
+  background-color: var(--md-sys-color-surface-variant);
+}
+
+/* Footer */
+.app-footer {
+  background-color: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: var(--md-sys-spacing-4);
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 1.1rem;
-  line-height: 1.5;
+  font-size: var(--md-sys-typescale-body-small-font-size);
+}
+
+/* Material Design 3 Elevation */
+.md-elevation-1 {
+  box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15),
+              0px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.md-elevation-2 {
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15),
+              0px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Material Design 3 Shape */
+.md-rounded-medium {
+  border-radius: 16px;
 }
