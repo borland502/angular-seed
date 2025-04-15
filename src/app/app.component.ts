@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { DbComponent } from '../../projects/db/src/lib/db.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
+    RouterLink,
     DbComponent
   ],
   templateUrl: './app.component.html',
