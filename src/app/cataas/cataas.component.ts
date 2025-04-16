@@ -14,7 +14,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 import { CataasService, CatImage } from './cataas.service';
-import { Observable, catchError, map, of, startWith, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-cataas',
